@@ -9,20 +9,18 @@ export default function SinglePostController({ post, index }) {
   const [showComment, setShowComment] = useState(false)
 
   const handleShowCommentButtonClick = () => {
+    //toggle btn
     setShowComment(!showComment)
+    if (!showComment) {
+      setIsLoading(true)
+      setTimeout(() => {
+        SinglePostModel.getComments(post.id)
+          .then((res) => setComments(res))
+          .catch((err) => console.log('err', err))
+        setIsLoading(false)
+      }, 2000)
+    }
   }
-
-  useEffect(() => {
-    setIsLoading(true)
-    const delay = setTimeout(() => {
-      SinglePostModel.getComments(post.id)
-        .then((res) => setComments(res))
-        .catch((err) => console.log('err', err))
-      setIsLoading(false)
-    }, 1000)
-
-    return () => clearTimeout(delay)
-  }, [post.id])
 
   return (
     <SinglePostView

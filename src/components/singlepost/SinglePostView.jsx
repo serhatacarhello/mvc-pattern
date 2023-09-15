@@ -17,6 +17,8 @@ export default function SinglePostView({
       <button onClick={handleShowCommentButtonClick}>
         {showComment ? 'Hide ' : 'Show '}Comments
       </button>
+      {isLoading && <h4>Comments are loading...</h4>}
+
       {showComment && !isLoading && (
         <div className="comments">
           {comments?.map((comment) => (
